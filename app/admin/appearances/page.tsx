@@ -34,86 +34,89 @@ export default function AppearancePage() {
   if (!settings) return <div className="p-8">Memuat pengaturan...</div>;
 
   return (
-    <div className="max-w-3xl space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
+    <div className="space-y-6">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
           <Palette className="h-8 w-8" />
           Appearance
         </h1>
-        <p className="text-muted-foreground mt-2">
-          Atur tampilan identitas website, warna tema, dan icon browser.
+        <p className="text-muted-foreground text-sm">
+          Atur tampilan identitas website, warna tema, dan icon browser
         </p>
       </div>
 
-      <Card>
+      <Card className="border-border/50">
         <CardHeader>
-          <CardTitle>Identitas Website</CardTitle>
+          <CardTitle className="text-xl">Identitas Website</CardTitle>
           <CardDescription>
-            Data ini akan digunakan untuk SEO dan tampilan di tab browser pengunjung.
+            Pengaturan ini akan tampil di SEO dan tab browser pengunjung
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={clientAction} className="space-y-6">
+          <form action={clientAction} className="space-y-8">
             
-            <div className="space-y-2">
-              <Label htmlFor="title">Judul Website (Page Title)</Label>
+            <div className="space-y-3">
+              <Label htmlFor="title" className="text-base font-semibold">Judul Website</Label>
               <Input 
                 id="title" 
                 name="title" 
                 defaultValue={settings.title} 
                 required 
-                placeholder="ex: John Doe | Frontend Developer" 
+                placeholder="ex: John Doe | Frontend Developer"
+                className="h-10"
               />
-              <p className="text-xs text-muted-foreground">Teks yang muncul di tab atas browser.</p>
+              <p className="text-xs text-muted-foreground">Teks yang muncul di tab browser</p>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="theme_color">Warna Tema Utama (Brand Color)</Label>
+            <div className="space-y-3">
+              <Label htmlFor="theme_color" className="text-base font-semibold">Warna Tema Brand</Label>
               <div className="flex items-center gap-4">
-                {/* Input warna bawaan browser */}
-                <Input 
-                  id="theme_color" 
-                  name="theme_color" 
-                  type="color" 
-                  defaultValue={settings.theme_color} 
-                  className="w-16 h-12 p-1 cursor-pointer"
-                />
-                <span className="text-sm text-muted-foreground">
-                  Pilih warna dasar untuk tombol dan aksen di halaman utama.
-                </span>
+                <div className="relative h-14 w-20 rounded-lg border-2 border-border/50 overflow-hidden shadow-sm">
+                  <Input 
+                    id="theme_color" 
+                    name="theme_color" 
+                    type="color" 
+                    defaultValue={settings.theme_color} 
+                    className="h-full w-full cursor-pointer border-0 p-0 absolute inset-0"
+                  />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-foreground">{settings.theme_color}</p>
+                  <p className="text-xs text-muted-foreground mt-1">Warna utama untuk tombol dan aksen</p>
+                </div>
               </div>
             </div>
 
-            <hr className="my-6" />
-
-            <div className="space-y-4 p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border">
-              <Label htmlFor="favicon_file" className="text-base font-semibold flex items-center gap-2">
-                <Globe className="h-4 w-4"/> Icon Website (Favicon)
-              </Label>
-              
-              {settings.favicon_url && (
-                <div className="flex items-center gap-4 mb-2">
-                  <div className="w-12 h-12 rounded bg-white border flex items-center justify-center p-1 overflow-hidden">
-                    <img src={settings.favicon_url} alt="Favicon" className="w-full h-full object-contain" />
+            <div className="border-t border-border/30 pt-8">
+              <div className="space-y-4 p-6 bg-muted/30 rounded-lg border border-border/50">
+                <Label htmlFor="favicon_file" className="text-base font-semibold flex items-center gap-2">
+                  <Globe className="h-5 w-5"/> Icon Website (Favicon)
+                </Label>
+                
+                {settings.favicon_url && (
+                  <div className="flex items-center gap-4 p-3 bg-background rounded-lg border border-border/30">
+                    <div className="h-12 w-12 rounded-lg bg-background border border-border/50 flex items-center justify-center p-2 overflow-hidden flex-shrink-0">
+                      <img src={settings.favicon_url} alt="Favicon preview" className="w-full h-full object-contain" />
+                    </div>
+                    <span className="text-sm text-muted-foreground">Preview icon saat ini</span>
                   </div>
-                  <span className="text-sm text-muted-foreground">Icon saat ini</span>
-                </div>
-              )}
-              
-              <Input 
-                id="favicon_file" 
-                name="favicon_file" 
-                type="file" 
-                accept="image/png, image/jpeg, image/x-icon, image/svg+xml" 
-                className="cursor-pointer"
-              />
-              <p className="text-xs text-muted-foreground">
-                Upload gambar rasio kotak (1:1). Ekstensi .png atau .ico disarankan. Max 2MB.
-              </p>
+                )}
+                
+                <Input 
+                  id="favicon_file" 
+                  name="favicon_file" 
+                  type="file" 
+                  accept="image/png, image/jpeg, image/x-icon, image/svg+xml" 
+                  className="cursor-pointer h-10"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Ukuran 1:1 (square), format .png atau .ico direkomendasikan. Maksimal 2MB.
+                </p>
+              </div>
             </div>
 
-            <div className="flex justify-end border-t pt-6">
-              <SubmitButton>Simpan Tampilan</SubmitButton>
+            <div className="flex justify-end gap-3 border-t border-border/30 pt-6">
+              <SubmitButton>Simpan Pengaturan</SubmitButton>
             </div>
           </form>
         </CardContent>

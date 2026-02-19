@@ -7,16 +7,18 @@ export default async function SettingsPage() {
   const { data: biodata } = await supabase.from("biodata").select("*").eq("id", 1).single();
 
   return (
-    <div className="max-w-3xl space-y-6">
-      <h1 className="text-3xl font-bold">Settings</h1>
+    <div className="space-y-6">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
+        <p className="text-muted-foreground text-sm">Kelola informasi profil dan data pribadi kamu</p>
+      </div>
       
-      <Card>
+      <Card className="border-border/50">
         <CardHeader>
-          <CardTitle>Informasi Profil</CardTitle>
-          <CardDescription>Perubahan di sini akan langsung mengubah tampilan website public.</CardDescription>
+          <CardTitle className="text-xl">Informasi Profil</CardTitle>
+          <CardDescription>Perubahan akan langsung mengubah tampilan website public kamu</CardDescription>
         </CardHeader>
         
-        {/* Panggil form yang sudah "pintar" bisa memunculkan toast */}
         <SettingsForm biodata={biodata} />
       </Card>
     </div>

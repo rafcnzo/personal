@@ -1,6 +1,6 @@
 'use client'
 
-import { Trash } from "lucide-react"
+import { Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   AlertDialog,
@@ -22,30 +22,36 @@ export function DeleteButton({ id }: { id: number }) {
 
   async function handleDelete() {
     setLoading(true)
-    await deleteProject(id)
-    setLoading(false)
-    toast.success("Project dihapus")
+    try {
+      await deleteProject(id)
+      toast.success("Project berhasil dihapus")
+    } catch (error) {
+      toast.error("Gagal menghapus project")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="icon" disabled={loading}>
-          <Trash className="h-4 w-4" />
+        <Button variant="outline" size="icon" className="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-800" disabled={loading}>
+          <Trash2 className="h-4 w-4" />
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="sm:max-w-[400px]">
         <AlertDialogHeader>
-          <AlertDialogTitle>Yakin mau hapus?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Data yang dihapus tidak bisa dikembalikan lagi.
+          <AlertDialogTitle className="text-base">Hapus Project</AlertDialogTitle>
+          <AlertDialogDescription className="text-sm">
+            Tindakan ini tidak dapat dibatalkan. Data project akan dihapus secara permanen.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
+        <AlertDialogFooter className="gap-3">
           <AlertDialogCancel>Batal</AlertDialogCancel>
           <AlertDialogAction 
             onClick={handleDelete} 
-            className="bg-red-600 hover:bg-red-700"
+            disabled={loading}
+            className="bg-red-600 hover:bg-red-700 text-white"
           >
             {loading ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>

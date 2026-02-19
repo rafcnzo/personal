@@ -65,46 +65,47 @@ export function ProjectSheet({ project }: { project?: Project }) {
         )}
       </SheetTrigger>
       
-      <SheetContent>
+      <SheetContent className="overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>{isEdit ? "Edit Project" : "Project Baru"}</SheetTitle>
-          <SheetDescription>
-            {isEdit ? "Ubah detail project di sini." : "Tambahkan project baru ke portofolio."}
+          <SheetTitle className="text-xl">{isEdit ? "Edit Project" : "Project Baru"}</SheetTitle>
+          <SheetDescription className="text-sm">
+            {isEdit ? "Ubah detail project di sini." : "Tambahkan project baru ke portofolio kamu."}
           </SheetDescription>
         </SheetHeader>
 
         {/* FORM */}
-        <form action={handleSubmit} className="space-y-4 mt-4">
+        <form action={handleSubmit} className="space-y-5 mt-6">
           {/* Hidden Input ID (Wajib untuk Edit) */}
           {isEdit && <input type="hidden" name="id" value={project.id} />}
           
-          <div className="space-y-2">
-            <Label htmlFor="title">Judul Project</Label>
+          <div className="space-y-3">
+            <Label htmlFor="title" className="font-medium">Judul Project</Label>
             <Input 
               id="title" 
               name="title" 
               defaultValue={project?.title} 
               required 
-              placeholder="Contoh: Website Toko Online" 
+              placeholder="Contoh: Website Toko Online"
+              className="h-10"
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="category">Kategori</Label>
+          <div className="space-y-3">
+            <Label htmlFor="category" className="font-medium">Kategori</Label>
             <Input 
               id="category" 
               name="category" 
               defaultValue={project?.category} 
               required 
-              placeholder="Contoh: Web App / UI Design" 
+              placeholder="Contoh: Web App / UI Design"
+              className="h-10"
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="status">Status</Label>
-            {/* Trik: Pakai name="status" di Select Shadcn biar kebaca FormData */}
+          <div className="space-y-3">
+            <Label htmlFor="status" className="font-medium">Status</Label>
             <Select name="status" defaultValue={project?.status || "Draft"}>
-              <SelectTrigger>
+              <SelectTrigger className="h-10">
                 <SelectValue placeholder="Pilih status" />
               </SelectTrigger>
               <SelectContent>
@@ -115,7 +116,7 @@ export function ProjectSheet({ project }: { project?: Project }) {
             </Select>
           </div>
 
-          <SheetFooter className="mt-8">
+          <SheetFooter className="mt-8 gap-3">
             <SheetClose asChild>
               <Button variant="outline" type="button">Batal</Button>
             </SheetClose>

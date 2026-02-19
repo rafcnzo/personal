@@ -1,23 +1,61 @@
 'use client'
-import { Trash } from "lucide-react"
+import { Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { deleteSkill } from "@/app/admin/skills/actions"
 import { toast } from "sonner"
 import { useState } from "react"
 
 export function DeleteSkillButton({ id }: { id: number }) {
   const [loading, setLoading] = useState(false)
+  
   async function handleDelete() {
-    if(confirm("Yakin mau hapus skill ini?")) {
-      setLoading(true)
+    setLoading(true)
+    try {
       await deleteSkill(id)
+      toast.success("Skill berhasil dihapus")
+    } catch (error) {
+      toast.error("Gagal menghapus skill")
+    } finally {
       setLoading(false)
-      toast.success("Skill dihapus")
     }
   }
+
   return (
-    <Button variant="destructive" size="icon" disabled={loading} onClick={handleDelete}>
-      <Trash className="h-4 w-4" />
-    </Button>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="outline" size="icon" className="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-200 dark:hover:border-red-800" disabled={loading}>
+          <Trash2 className="h-4 w-4" />
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent className="sm:max-w-[400px]">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="text-base">Hapus Skill</AlertDialogTitle>
+          <AlertDialogDescription className="text-sm">
+            Skill ini akan dihapus secara permanen dan tidak dapat dikembalikan.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter className="gap-3">
+          <AlertDialogCancel>Batal</AlertDialogCancel>
+          <AlertDialogAction 
+            onClick={handleDelete}
+            disabled={loading}
+            className="bg-red-600 hover:bg-red-700 text-white"
+          >
+            {loading ? "Menghapus..." : "Hapus"}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }

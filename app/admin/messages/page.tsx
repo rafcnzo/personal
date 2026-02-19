@@ -16,48 +16,58 @@ export default async function MessagesPage() {
 
   if (error) return <div>Error loading messages: {error.message}</div>;
 
+  const unreadCount = messages?.filter(m => !m.is_read).length || 0;
+
   return (
-    <div className="max-w-4xl space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <Mail className="h-8 w-8" />
-          Inbox Pesan
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          Pesan dari pengunjung website portofolio kamu.
-        </p>
+    <div className="space-y-6">
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+              <Mail className="h-8 w-8" />
+              Inbox Pesan
+            </h1>
+            <p className="text-muted-foreground mt-2 text-sm">
+              Pesan dari pengunjung website portofolio kamu
+            </p>
+          </div>
+          {unreadCount > 0 && (
+            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 rounded-full">
+              {unreadCount} pesan baru
+            </Badge>
+          )}
+        </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {messages?.map((msg) => (
-          <Card key={msg.id} className={msg.is_read ? "bg-slate-50 dark:bg-slate-900" : "border-blue-200 dark:border-blue-800 shadow-sm"}>
+          <Card key={msg.id} className={`overflow-hidden border transition-all ${msg.is_read ? "bg-background border-border/50 opacity-75" : "bg-blue-50/50 dark:bg-blue-950/20 border-blue-200/50 dark:border-blue-800/50"}`}>
             <CardHeader className="pb-3 flex flex-row items-start justify-between space-y-0">
-              <div>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  {msg.name}
-                  {!msg.is_read && <Badge className="bg-blue-500">Baru</Badge>}
-                </CardTitle>
-                <CardDescription className="text-sm mt-1">
-                  <a href={`mailto:${msg.email}`} className="text-blue-600 hover:underline">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <CardTitle className="text-base">{msg.name}</CardTitle>
+                  {!msg.is_read && <Badge className="bg-blue-600 dark:bg-blue-500 text-white text-xs">New</Badge>}
+                </div>
+                <CardDescription className="text-xs">
+                  <a href={`mailto:${msg.email}`} className="text-blue-600 dark:text-blue-400 hover:underline">
                     {msg.email}
                   </a>
                   {" • "}
                   {new Date(msg.created_at).toLocaleDateString('id-ID', {
-                    day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                    day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
                   })}
                 </CardDescription>
               </div>
               
               {/* Grup Tombol Aksi */}
-              <div className="flex gap-2">
+              <div className="flex gap-2 ml-4 flex-shrink-0">
                 {!msg.is_read && (
                   <form action={async () => {
                     'use server';
                     await markAsRead(msg.id);
                   }}>
-                    <SubmitButton variant="outline" size="sm" className="text-green-600 hover:text-green-700 hover:bg-green-50">
-                      <CheckCircle2 className="h-4 w-4 mr-1" />
-                      Tandai Dibaca
+                    <SubmitButton variant="ghost" size="sm" className="text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-950/30 h-8 px-2">
+                      <CheckCircle2 className="h-4 w-4" />
                     </SubmitButton>
                   </form>
                 )}
@@ -66,14 +76,14 @@ export default async function MessagesPage() {
                   'use server';
                   await deleteMessage(msg.id);
                 }}>
-                  <SubmitButton variant="ghost" size="sm" className="text-red-600 hover:text-red-700 hover:bg-red-50">
+                  <SubmitButton variant="ghost" size="sm" className="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 h-8 px-2">
                     <Trash2 className="h-4 w-4" />
                   </SubmitButton>
                 </form>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="p-4 bg-white dark:bg-slate-950 rounded-md border text-sm whitespace-pre-wrap">
+            <CardContent className="pt-0">
+              <div className="p-3 bg-muted/50 rounded-md border border-border/30 text-sm whitespace-pre-wrap leading-relaxed text-muted-foreground">
                 {msg.message}
               </div>
             </CardContent>
@@ -81,9 +91,10 @@ export default async function MessagesPage() {
         ))}
 
         {messages?.length === 0 && (
-          <div className="text-center p-12 border border-dashed rounded-lg text-muted-foreground">
-            <Mail className="h-12 w-12 mx-auto mb-3 opacity-20" />
-            <p>Belum ada pesan masuk.</p>
+          <div className="flex flex-col items-center justify-center p-12 border border-dashed rounded-lg text-center text-muted-foreground bg-muted/30">
+            <Mail className="h-12 w-12 mb-3 opacity-30" />
+            <p className="font-medium">Belum ada pesan masuk</p>
+            <p className="text-xs text-muted-foreground/75 mt-1">Pesan dari pengunjung akan muncul di sini</p>
           </div>
         )}
       </div>

@@ -16,16 +16,19 @@ export default async function ProjectsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Projects</h1>
-        
-        {/* Tombol CREATE tetap disini */}
-        <ProjectSheet />
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-1">
+            <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
+            <p className="text-sm text-muted-foreground">Kelola portofolio project kamu di sini</p>
+          </div>
+          <ProjectSheet />
+        </div>
       </div>
 
-      {/* Tabel sekarang cuma sebaris ini! */}
-      {/* Kita oper 'columns' dan 'data' ke komponen DataTable */}
-      <DataTable columns={columns} data={projects || []} />
+      <div className="rounded-lg border border-border/50">
+        <DataTable columns={columns} data={projects || []} />
+      </div>
     </div>
   );
 }
