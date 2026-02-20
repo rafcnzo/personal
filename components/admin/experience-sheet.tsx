@@ -46,56 +46,62 @@ export function ExperienceSheet({ exp }: { exp?: any }) {
         )}
       </SheetTrigger>
       
-      <SheetContent className="overflow-y-auto">
+      <SheetContent>
         <SheetHeader>
-          <SheetTitle className="text-xl">{isEdit ? "Edit Riwayat" : "Tambah Riwayat Baru"}</SheetTitle>
-          <SheetDescription className="text-sm">Masukkan detail pekerjaan atau organisasimu.</SheetDescription>
+          <SheetTitle className="text-xl tracking-tight">{isEdit ? "Edit Riwayat" : "Tambah Riwayat Baru"}</SheetTitle>
+          <SheetDescription className="text-muted-foreground text-sm leading-relaxed">
+            Masukkan detail pekerjaan atau organisasimu.
+          </SheetDescription>
         </SheetHeader>
 
-        <form action={handleSubmit} className="space-y-5 mt-6">
+        <form action={handleSubmit} className="flex flex-col flex-1 min-h-0">
           {isEdit && <input type="hidden" name="id" value={exp.id} />}
           <input type="hidden" name="type" value={type} />
-          
-          <div className="space-y-3">
-            <Label htmlFor="type" className="font-medium">Kategori</Label>
-            <Select value={type} onValueChange={setType}>
-              <SelectTrigger className="h-10"><SelectValue placeholder="Pilih kategori" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Work">Pekerjaan</SelectItem>
-                <SelectItem value="Organization">Organisasi</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
 
-          <div className="space-y-3">
-            <Label htmlFor="title" className="font-medium">Posisi / Peran</Label>
-            <Input id="title" name="title" defaultValue={exp?.title} required placeholder="Contoh: Frontend Developer" className="h-10" />
-          </div>
+          <div className="flex-1 overflow-y-auto px-6 pb-4">
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="type" className="font-medium text-sm">Kategori</Label>
+                <Select value={type} onValueChange={setType}>
+                  <SelectTrigger className="h-10 rounded-lg"><SelectValue placeholder="Pilih kategori" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Work">Pekerjaan</SelectItem>
+                    <SelectItem value="Organization">Organisasi</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-          <div className="space-y-3">
-            <Label htmlFor="company" className="font-medium">Nama Perusahaan / Organisasi</Label>
-            <Input id="company" name="company" defaultValue={exp?.company} required placeholder="Contoh: PT Teknologi" className="h-10" />
-          </div>
+              <div className="space-y-2">
+                <Label htmlFor="title" className="font-medium text-sm">Posisi / Peran</Label>
+                <Input id="title" name="title" defaultValue={exp?.title} required placeholder="Contoh: Frontend Developer" className="h-10 rounded-lg" />
+              </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-3">
-              <Label htmlFor="start_date" className="font-medium text-sm">Mulai</Label>
-              <Input id="start_date" name="start_date" defaultValue={exp?.start_date} required placeholder="Jan 2023" className="h-10" />
+              <div className="space-y-2">
+                <Label htmlFor="company" className="font-medium text-sm">Nama Perusahaan / Organisasi</Label>
+                <Input id="company" name="company" defaultValue={exp?.company} required placeholder="Contoh: PT Teknologi" className="h-10 rounded-lg" />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="start_date" className="font-medium text-sm">Mulai</Label>
+                  <Input id="start_date" name="start_date" defaultValue={exp?.start_date} required placeholder="Jan 2023" className="h-10 rounded-lg" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="end_date" className="font-medium text-sm">Selesai</Label>
+                  <Input id="end_date" name="end_date" defaultValue={exp?.end_date} required placeholder="Sekarang" className="h-10 rounded-lg" />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="description" className="font-medium text-sm">Deskripsi Singkat</Label>
+                <Textarea id="description" name="description" defaultValue={exp?.description} rows={4} placeholder="Jelaskan tanggung jawab atau pencapaianmu..." className="resize-none rounded-lg" />
+              </div>
             </div>
-            <div className="space-y-3">
-              <Label htmlFor="end_date" className="font-medium text-sm">Selesai</Label>
-              <Input id="end_date" name="end_date" defaultValue={exp?.end_date} required placeholder="Sekarang" className="h-10" />
-            </div>
           </div>
 
-          <div className="space-y-3">
-            <Label htmlFor="description" className="font-medium">Deskripsi Singkat</Label>
-            <Textarea id="description" name="description" defaultValue={exp?.description} rows={4} placeholder="Jelaskan tanggung jawab atau pencapaianmu..." className="resize-none" />
-          </div>
-
-          <SheetFooter className="mt-8 gap-3">
-            <SheetClose asChild><Button variant="outline" type="button">Batal</Button></SheetClose>
-            <SubmitButton>Simpan</SubmitButton>
+          <SheetFooter className="mt-auto">
+            <SheetClose asChild><Button variant="outline" type="button" className="rounded-lg">Batal</Button></SheetClose>
+            <SubmitButton className="rounded-lg">Simpan</SubmitButton>
           </SheetFooter>
         </form>
       </SheetContent>

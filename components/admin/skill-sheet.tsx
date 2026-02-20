@@ -43,42 +43,48 @@ export function SkillSheet({ skill }: { skill?: Skill }) {
         )}
       </SheetTrigger>
       
-      <SheetContent className="overflow-y-auto">
+      <SheetContent>
         <SheetHeader>
-          <SheetTitle className="text-xl">{isEdit ? "Edit Skill" : "Tambah Skill Baru"}</SheetTitle>
-          <SheetDescription className="text-sm">Masukkan nama keahlian dan tingkat penguasaanmu.</SheetDescription>
+          <SheetTitle className="text-xl tracking-tight">{isEdit ? "Edit Skill" : "Tambah Skill Baru"}</SheetTitle>
+          <SheetDescription className="text-muted-foreground text-sm leading-relaxed">
+            Masukkan nama keahlian dan tingkat penguasaanmu.
+          </SheetDescription>
         </SheetHeader>
 
-        <form action={handleSubmit} className="space-y-5 mt-6">
+        <form action={handleSubmit} className="flex flex-col flex-1 min-h-0">
           {isEdit && <input type="hidden" name="id" value={skill.id} />}
-          
-          <div className="space-y-3">
-            <Label htmlFor="name" className="font-medium">Nama Skill</Label>
-            <Input id="name" name="name" defaultValue={skill?.name} required placeholder="Contoh: React.js / Komunikasi" className="h-10" />
-          </div>
 
-          <div className="space-y-3">
-            <Label htmlFor="category" className="font-medium">Kategori</Label>
-            <Select name="category" defaultValue={skill?.category || "Hard Skill"}>
-              <SelectTrigger className="h-10"><SelectValue placeholder="Pilih kategori" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Hard Skill">Hard Skill</SelectItem>
-                <SelectItem value="Soft Skill">Soft Skill</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <div className="flex-1 overflow-y-auto px-6 pb-4">
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="name" className="font-medium text-sm">Nama Skill</Label>
+                <Input id="name" name="name" defaultValue={skill?.name} required placeholder="Contoh: React.js / Komunikasi" className="h-10 rounded-lg" />
+              </div>
 
-          <div className="space-y-3">
-            <Label htmlFor="percentage" className="font-medium">Tingkat Kemahiran</Label>
-            <div className="flex items-center gap-3">
-              <Input id="percentage" name="percentage" type="number" min="1" max="100" defaultValue={skill?.percentage || 80} required className="h-10 flex-1" />
-              <span className="text-sm font-medium text-muted-foreground min-w-fit">%</span>
+              <div className="space-y-2">
+                <Label htmlFor="category" className="font-medium text-sm">Kategori</Label>
+                <Select name="category" defaultValue={skill?.category || "Hard Skill"}>
+                  <SelectTrigger className="h-10 rounded-lg"><SelectValue placeholder="Pilih kategori" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Hard Skill">Hard Skill</SelectItem>
+                    <SelectItem value="Soft Skill">Soft Skill</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="percentage" className="font-medium text-sm">Tingkat Kemahiran</Label>
+                <div className="flex items-center gap-3">
+                  <Input id="percentage" name="percentage" type="number" min="1" max="100" defaultValue={skill?.percentage ?? 80} required className="h-10 flex-1 rounded-lg" />
+                  <span className="text-sm font-medium text-muted-foreground min-w-8">%</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <SheetFooter className="mt-8 gap-3">
-            <SheetClose asChild><Button variant="outline" type="button">Batal</Button></SheetClose>
-            <SubmitButton>Simpan</SubmitButton>
+          <SheetFooter className="mt-auto">
+            <SheetClose asChild><Button variant="outline" type="button" className="rounded-lg">Batal</Button></SheetClose>
+            <SubmitButton className="rounded-lg">Simpan</SubmitButton>
           </SheetFooter>
         </form>
       </SheetContent>

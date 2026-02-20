@@ -65,62 +65,64 @@ export function ProjectSheet({ project }: { project?: Project }) {
         )}
       </SheetTrigger>
       
-      <SheetContent className="overflow-y-auto">
+      <SheetContent>
         <SheetHeader>
-          <SheetTitle className="text-xl">{isEdit ? "Edit Project" : "Project Baru"}</SheetTitle>
-          <SheetDescription className="text-sm">
+          <SheetTitle className="text-xl tracking-tight">{isEdit ? "Edit Project" : "Project Baru"}</SheetTitle>
+          <SheetDescription className="text-muted-foreground text-sm leading-relaxed">
             {isEdit ? "Ubah detail project di sini." : "Tambahkan project baru ke portofolio kamu."}
           </SheetDescription>
         </SheetHeader>
 
-        {/* FORM */}
-        <form action={handleSubmit} className="space-y-5 mt-6">
-          {/* Hidden Input ID (Wajib untuk Edit) */}
+        <form action={handleSubmit} className="flex flex-col flex-1 min-h-0">
           {isEdit && <input type="hidden" name="id" value={project.id} />}
-          
-          <div className="space-y-3">
-            <Label htmlFor="title" className="font-medium">Judul Project</Label>
-            <Input 
-              id="title" 
-              name="title" 
-              defaultValue={project?.title} 
-              required 
-              placeholder="Contoh: Website Toko Online"
-              className="h-10"
-            />
+
+          <div className="flex-1 overflow-y-auto px-6 pb-4">
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="title" className="font-medium text-sm">Judul Project</Label>
+                <Input
+                  id="title"
+                  name="title"
+                  defaultValue={project?.title}
+                  required
+                  placeholder="Contoh: Website Toko Online"
+                  className="h-10 rounded-lg"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="category" className="font-medium text-sm">Kategori</Label>
+                <Input
+                  id="category"
+                  name="category"
+                  defaultValue={project?.category}
+                  required
+                  placeholder="Contoh: Web App / UI Design"
+                  className="h-10 rounded-lg"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="status" className="font-medium text-sm">Status</Label>
+                <Select name="status" defaultValue={project?.status || "Draft"}>
+                  <SelectTrigger className="h-10 rounded-lg">
+                    <SelectValue placeholder="Pilih status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Draft">Draft</SelectItem>
+                    <SelectItem value="In Progress">In Progress</SelectItem>
+                    <SelectItem value="Completed">Completed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-3">
-            <Label htmlFor="category" className="font-medium">Kategori</Label>
-            <Input 
-              id="category" 
-              name="category" 
-              defaultValue={project?.category} 
-              required 
-              placeholder="Contoh: Web App / UI Design"
-              className="h-10"
-            />
-          </div>
-
-          <div className="space-y-3">
-            <Label htmlFor="status" className="font-medium">Status</Label>
-            <Select name="status" defaultValue={project?.status || "Draft"}>
-              <SelectTrigger className="h-10">
-                <SelectValue placeholder="Pilih status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Draft">Draft</SelectItem>
-                <SelectItem value="In Progress">In Progress</SelectItem>
-                <SelectItem value="Completed">Completed</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <SheetFooter className="mt-8 gap-3">
+          <SheetFooter className="mt-auto">
             <SheetClose asChild>
-              <Button variant="outline" type="button">Batal</Button>
+              <Button variant="outline" type="button" className="rounded-lg">Batal</Button>
             </SheetClose>
-            <SubmitButton>Simpan</SubmitButton>
+            <SubmitButton className="rounded-lg">Simpan</SubmitButton>
           </SheetFooter>
         </form>
       </SheetContent>
