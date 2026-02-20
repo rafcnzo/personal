@@ -55,35 +55,35 @@ export function AppSidebar({ user, ...props }: { user: any } & React.ComponentPr
     <Sidebar 
       collapsible="icon" 
       {...props} 
-      className="bg-gradient-to-b from-blue-600 via-blue-500 to-blue-400 dark:from-blue-700 dark:via-blue-600 dark:to-blue-500 border-0 [&>aside]:rounded-r-[2rem] overflow-hidden"
+      className="bg-gradient-to-b from-blue-600 via-blue-500 to-blue-400 dark:from-blue-700 dark:via-blue-600 dark:to-blue-500 border-0"
     >
-      {/* HEADER: Menu Title */}
-      <SidebarHeader className="border-0 pb-8 pt-8 px-6">
-        <h2 className="text-white font-bold text-2xl tracking-tight">Menu</h2>
+      {/* HEADER */}
+      <SidebarHeader className="border-0 pb-6 pt-8 px-6 group-data-[collapsible=icon]:px-2 transition-all duration-300">
+        <h2 className="text-white font-bold text-2xl tracking-tight group-data-[collapsible=icon]:text-center group-data-[collapsible=icon]:text-base transition-all duration-300">Menu</h2>
       </SidebarHeader>
 
-      {/* CONTENT: Menu Navigasi */}
-      <SidebarContent className="border-0 px-0 py-0 flex-1 flex flex-col">
-        <SidebarGroup className="border-0 px-0 py-3 flex-1">
+      {/* CONTENT */}
+      <SidebarContent className="border-0 px-0 py-2 flex-1 transition-all duration-300">
+        <SidebarGroup className="border-0 px-0 py-2 transition-all duration-300">
           <SidebarGroupLabel className="hidden" />
-          <SidebarGroupContent className="px-0 flex-1">
-            <SidebarMenu className="gap-2 px-4 flex flex-col">
+          <SidebarGroupContent className="px-0 transition-all duration-300">
+            <SidebarMenu className="gap-2 px-3 transition-all duration-300">
               {items.map((item) => {
                 const isActive = pathname === item.url
                 return (
-                  <SidebarMenuItem key={item.title} className="flex">
+                  <SidebarMenuItem key={item.title} className="transition-all duration-300">
                     <SidebarMenuButton
                       asChild
-                      className={`w-full h-11 rounded-full px-4 transition-all duration-300 ease-out font-medium text-sm flex items-center gap-3 ${
+                      className={`rounded-full transition-all duration-300 h-10 px-4 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:!px-0 group-data-[collapsible=icon]:justify-center ${
                         isActive
-                          ? "bg-white text-blue-600 font-semibold shadow-md hover:shadow-lg scale-[1.02]"
-                          : "text-white/80 hover:text-white hover:bg-white/20"
+                          ? "bg-white text-blue-600 font-semibold shadow-lg hover:shadow-xl"
+                          : "text-white/85 hover:text-white hover:bg-white/20"
                       }`}
                       tooltip={item.title}
                     >
-                      <Link href={item.url} className="flex items-center gap-3 w-full">
+                      <Link href={item.url} className="flex items-center gap-3 w-full justify-start group-data-[collapsible=icon]:justify-center">
                         <item.icon className="size-5 flex-shrink-0" />
-                        <span>{item.title}</span>
+                        <span className="text-sm group-data-[collapsible=icon]:hidden transition-all duration-300">{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -95,24 +95,24 @@ export function AppSidebar({ user, ...props }: { user: any } & React.ComponentPr
         </SidebarGroup>
       </SidebarContent>
 
-      {/* FOOTER: User Profile */}
-      <SidebarFooter className="border-0 px-4 pb-6 pt-4">
+      {/* FOOTER */}
+      <SidebarFooter className="border-0 px-3 pb-6 pt-4 transition-all duration-300">
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton
                   size="lg"
-                  className="h-12 px-3 text-white hover:bg-white/15 rounded-full transition-all duration-200 data-[state=open]:bg-white/20"
+                  className="h-10 px-3 text-white hover:bg-white/15 rounded-full transition-all duration-300 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:!px-0 group-data-[collapsible=icon]:justify-center"
                 >
-                  <div className="flex aspect-square size-9 items-center justify-center rounded-lg bg-white/20 text-white font-bold text-xs">
+                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-white/25 text-white font-bold text-xs flex-shrink-0">
                     {user.name.charAt(0).toUpperCase()}
                   </div>
-                  <div className="grid flex-1 text-left text-xs leading-tight ml-2">
+                  <div className="grid flex-1 text-left text-xs leading-tight ml-2 group-data-[collapsible=icon]:hidden transition-all duration-300">
                     <span className="truncate font-semibold capitalize">{user.name}</span>
-                    <span className="truncate opacity-75 text-xs">{user.email}</span>
+                    <span className="truncate opacity-75">{user.email}</span>
                   </div>
-                  <ChevronUp className="ml-auto size-4 transition-transform duration-200" />
+                  <ChevronUp className="ml-auto size-4 group-data-[collapsible=icon]:hidden transition-all duration-300" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
