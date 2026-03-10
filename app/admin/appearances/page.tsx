@@ -110,7 +110,7 @@ export default function AppearancePage() {
                   className="cursor-pointer h-10"
                 />
                 <p className="text-xs text-muted-foreground">
-                  Ukuran 1:1 (square), format .png atau .ico direkomendasikan. Maksimal 2MB.
+                  Ukuran 1:1 (square), format .png atau .ico direkomendasikan. Maksimal 3MB.
                 </p>
               </div>
             </div>

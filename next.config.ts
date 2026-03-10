@@ -6,6 +6,16 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "8mb",
     },
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "etgtnfkerjjdgdaodusl.supabase.co",
+        port: "",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
