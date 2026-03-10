@@ -6,14 +6,15 @@ import {
   FileText,
   Settings,
   LogOut,
-  GalleryVerticalEnd,
-  User2,
   ChevronUp,
   Mail,
   Wrench,
   Users,
   Palette,
+  MenuIcon,
 } from "lucide-react"
+import { usePathname } from "next/navigation"
+import Link from "next/link"
 
 import {
   Sidebar,
@@ -26,7 +27,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
 } from "@/components/ui/sidebar"
 import {
   DropdownMenu,
@@ -34,11 +34,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { usePathname } from "next/navigation"
-import Link from "next/link"
 import { signOut } from "@/app/login/actions"
 
-const items = [
+const NAV_ITEMS = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
   { title: "Projects", url: "/admin/projects", icon: FileText },
   { title: "Skills", url: "/admin/skills", icon: Wrench },
@@ -52,76 +50,93 @@ export function AppSidebar({ user, ...props }: { user: any } & React.ComponentPr
   const pathname = usePathname()
 
   return (
-    <Sidebar 
-      collapsible="icon" 
-      {...props} 
-      className="bg-gradient-to-b from-blue-600 via-blue-500 to-blue-400 dark:from-blue-700 dark:via-blue-600 dark:to-blue-500 border-0"
-    >
-      {/* HEADER */}
-      <SidebarHeader className="border-0 pb-6 pt-8 px-6 group-data-[collapsible=icon]:px-2 transition-all duration-300">
-        <h2 className="text-white font-bold text-2xl tracking-tight group-data-[collapsible=icon]:text-center group-data-[collapsible=icon]:text-base transition-all duration-300">Menu</h2>
+    <Sidebar collapsible="icon" {...props} className="bg-black">
+      <SidebarHeader
+        className="border-0 px-4 pb-6 pt-8 group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:pt-6 group-data-[collapsible=icon]:px-0"
+      >
+        <div className="flex w-full items-center justify-center group-data-[collapsible=icon]:justify-center">
+          <h2 className="text-xl font-bold tracking-tight text-white group-data-[collapsible=icon]:hidden">
+            Menu
+          </h2>
+          <div className="hidden size-8 items-center justify-center rounded-lg bg-white/10 text-white group-data-[collapsible=icon]:flex">
+            <MenuIcon className="size-5" />
+          </div>
+        </div>
       </SidebarHeader>
 
-      {/* CONTENT */}
-      <SidebarContent className="border-0 px-0 py-2 flex-1 transition-all duration-300">
-        <SidebarGroup className="border-0 px-0 py-2 transition-all duration-300">
+      <SidebarContent className="flex-1 overflow-visible border-0 px-0 py-0">
+        <SidebarGroup className="border-0 px-0 py-2">
           <SidebarGroupLabel className="hidden" />
-          <SidebarGroupContent className="px-0 transition-all duration-300">
-            <SidebarMenu className="gap-2 px-3 transition-all duration-300">
-              {items.map((item) => {
+          <SidebarGroupContent className="px-0">
+            <SidebarMenu className="gap-2 pl-4 group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:pl-2">
+              {NAV_ITEMS.map((item) => {
                 const isActive = pathname === item.url
                 return (
-                  <SidebarMenuItem key={item.title} className="transition-all duration-300">
+                  <SidebarMenuItem key={item.title} className="relative">
                     <SidebarMenuButton
                       asChild
-                      className={`rounded-full transition-all duration-300 h-10 px-4 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:!px-0 group-data-[collapsible=icon]:justify-center ${
-                        isActive
-                          ? "bg-white text-blue-600 font-semibold shadow-lg hover:shadow-xl"
-                          : "text-white/85 hover:text-white hover:bg-white/20"
-                      }`}
                       tooltip={item.title}
+                      className={
+                        isActive
+                          ? "h-12 w-full rounded-l-full rounded-r-none bg-white font-semibold text-black shadow-none transition-none hover:bg-white hover:text-black group-data-[collapsible=icon]:!rounded-md relative z-10"
+                          : "h-12 w-full rounded-lg font-medium text-white/70 transition-none hover:bg-white/10 hover:text-white group-data-[collapsible=icon]:!rounded-md"
+                      }
                     >
-                      <Link href={item.url} className="flex items-center gap-3 w-full justify-start group-data-[collapsible=icon]:justify-center">
-                        <item.icon className="size-5 flex-shrink-0" />
-                        <span className="text-sm group-data-[collapsible=icon]:hidden transition-all duration-300">{item.title}</span>
+                      <Link href={item.url} className="flex items-center gap-3 px-4">
+                        <item.icon
+                          className={`size-5 shrink-0 ${isActive ? "text-black" : "text-white"}`}
+                        />
+                        <span>{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
+
+                    {isActive && (
+                      <div
+                        className="absolute -right-px top-0 bottom-0 z-0 w-5 pointer-events-none group-data-[collapsible=icon]:hidden"
+                        aria-hidden
+                      >
+                        <div className="absolute -top-5 right-0 h-5 w-5 bg-white">
+                          <div className="absolute inset-0 rounded-br-full bg-black" />
+                        </div>
+                        <div className="absolute -bottom-5 right-0 h-5 w-5 bg-white">
+                          <div className="absolute inset-0 rounded-tr-full bg-black" />
+                        </div>
+                      </div>
+                    )}
                   </SidebarMenuItem>
                 )
               })}
             </SidebarMenu>
-
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 
-      {/* FOOTER */}
-      <SidebarFooter className="border-0 px-3 pb-6 pt-4 transition-all duration-300">
+      <SidebarFooter className="mx-3 mb-4 rounded-2xl border-0 bg-white/10 p-3 group-data-[collapsible=icon]:mx-2 group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:p-1">
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton
                   size="lg"
-                  className="h-10 px-3 text-white hover:bg-white/15 rounded-full transition-all duration-300 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:!px-0 group-data-[collapsible=icon]:justify-center"
+                  className="h-12 rounded-xl text-white hover:bg-white/20 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:rounded-lg"
                 >
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-white/25 text-white font-bold text-xs flex-shrink-0">
-                    {user.name.charAt(0).toUpperCase()}
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-white/20 text-sm font-bold text-white">
+                    {user?.name?.charAt(0).toUpperCase()}
                   </div>
-                  <div className="grid flex-1 text-left text-xs leading-tight ml-2 group-data-[collapsible=icon]:hidden transition-all duration-300">
-                    <span className="truncate font-semibold capitalize">{user.name}</span>
-                    <span className="truncate opacity-75">{user.email}</span>
+                  <div className="grid min-w-0 flex-1 text-left text-xs leading-tight group-data-[collapsible=icon]:hidden">
+                    <span className="truncate font-semibold capitalize">{user?.name}</span>
+                    <span className="truncate opacity-80">{user?.email}</span>
                   </div>
-                  <ChevronUp className="ml-auto size-4 group-data-[collapsible=icon]:hidden transition-all duration-300" />
+                  <ChevronUp className="ml-auto size-4 shrink-0 group-data-[collapsible=icon]:hidden" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="top"
-                className="w-56 rounded-2xl mb-2"
-              >
+              <DropdownMenuContent side="top" className="w-56 rounded-lg">
                 <DropdownMenuItem asChild>
                   <form action={signOut} className="w-full">
-                    <button type="submit" className="flex w-full items-center gap-2 text-red-600 hover:text-red-700 cursor-pointer font-medium">
+                    <button
+                      type="submit"
+                      className="flex w-full cursor-pointer items-center gap-2 text-red-600"
+                    >
                       <LogOut className="size-4" />
                       <span>Log out</span>
                     </button>
@@ -132,7 +147,6 @@ export function AppSidebar({ user, ...props }: { user: any } & React.ComponentPr
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   )
 }

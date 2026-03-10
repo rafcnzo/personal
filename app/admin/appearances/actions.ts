@@ -17,7 +17,7 @@ export async function updateAppearance(formData: FormData) {
 
     // Cek apakah ada file favicon (icon) yang diupload
     const faviconFile = formData.get('favicon_file') as File | null
-
+    
     if (faviconFile && faviconFile.size > 0) {
       // Pastikan nama unik
       const fileName = `favicon-${Date.now()}-${faviconFile.name}`
