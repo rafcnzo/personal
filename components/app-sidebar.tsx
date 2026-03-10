@@ -46,7 +46,8 @@ const NAV_ITEMS = [
   { title: "Settings", url: "/admin/settings", icon: Settings },
 ]
 
-export function AppSidebar({ user, ...props }: { user: any } & React.ComponentProps<typeof Sidebar>) {
+// Perbaikan di sini: user dibuat optional (user?)
+export function AppSidebar({ user, ...props }: { user?: any } & React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
 
   return (
@@ -104,7 +105,7 @@ export function AppSidebar({ user, ...props }: { user: any } & React.ComponentPr
                       </div>
                     )}
                   </SidebarMenuItem>
-                )
+                );
               })}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -121,10 +122,10 @@ export function AppSidebar({ user, ...props }: { user: any } & React.ComponentPr
                   className="h-12 rounded-xl text-white hover:bg-white/20 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:rounded-lg"
                 >
                   <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-white/20 text-sm font-bold text-white">
-                    {user?.name?.charAt(0).toUpperCase()}
+                    {user?.user_metadata?.name?.charAt(0).toUpperCase() || 'U'}
                   </div>
                   <div className="grid min-w-0 flex-1 text-left text-xs leading-tight group-data-[collapsible=icon]:hidden">
-                    <span className="truncate font-semibold capitalize">{user?.name}</span>
+                    <span className="truncate font-semibold capitalize">{user?.user_metadata?.name || 'User'}</span>
                     <span className="truncate opacity-80">{user?.email}</span>
                   </div>
                   <ChevronUp className="ml-auto size-4 shrink-0 group-data-[collapsible=icon]:hidden" />
